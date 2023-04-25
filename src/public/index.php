@@ -7,6 +7,7 @@ use Phalcon\Mvc\Application;
 use Phalcon\Url;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Config;
+use Phalcon\Escaper;
 
 $config = new Config([]);
 
@@ -45,6 +46,12 @@ $container->set(
         return $url;
     }
 );
+$container->set(
+    'escaper',
+    function () {
+        return new Escaper();
+    }
+);
 
 $application = new Application($container);
 
@@ -58,7 +65,7 @@ $container->set(
                 'host'     => 'mysql-server',
                 'username' => 'root',
                 'password' => 'secret',
-                'dbname'   => 'phalt',
+                'dbname'   => 'newdb',
                 ]
             );
         }

@@ -1,0 +1,27 @@
+<?php
+
+
+echo "<table class= table table-striped >
+        <thead>
+            <th>ID</th>
+            <th>Customer-Name</th>
+            <th>Customer-Address</th>
+            <th>Zipcode</th>
+            <th>Product-name</th>
+            <th>Quantity</th>
+        </thead>
+        <tbody>";
+            
+       
+        foreach ($result as $key => $value) {
+            echo "<tr><td>".$value['id']."</td><td>".$value['customer_name']."</td><td>".$value['customer_address'].
+            "</td><td>".$value['zipcode']."</td><td>".$value['product_name']."</td><td>".$value['quantity']."</td></tr>";
+        }  
+            
+
+            
+          
+        echo "</tbody>
+    </table>";
+   
+echo  $this->tag->linkTo(['order', 'PLace Order', 'class' => 'btn btn-primary']);
