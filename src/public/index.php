@@ -24,6 +24,16 @@ $loader->registerDirs(
         APP_PATH . "/models/",
     ]
 );
+$loader->registerNamespaces(
+    [
+        'MyApp\handle' => APP_PATH . '/handler/'
+    ]
+);
+$loader->registerClasses(
+    [
+        'Listner'   => APP_PATH . '/handler/Listner.php',
+    ]
+);
 
 $loader->register();
 
@@ -53,10 +63,6 @@ $container->set(
     }
 );
 
-$application = new Application($container);
-
-
-
 $container->set(
     'db',
     function () {
@@ -66,21 +72,11 @@ $container->set(
                 'username' => 'root',
                 'password' => 'secret',
                 'dbname'   => 'newdb',
-                ]
-            );
-        }
+            ]
+        );
+    }
 );
-
-$container->set(
-    'mongo',
-    function () {
-        $mongo = new MongoClient();
-
-        return $mongo->selectDB('phalt');
-    },
-    true
-);
-
+$application = new Application($container);
 try {
     // Handle the request
     $response = $application->handle(

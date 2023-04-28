@@ -11,6 +11,4 @@ class Orders extends Model
     public $zipcode;
     public $product_name;
     public $quantity;
-
-
 }

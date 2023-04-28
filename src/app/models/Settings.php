@@ -3,12 +3,11 @@
 use Phalcon\Mvc\Model;
 
 // user database
-class Products extends Model
+class Settings extends Model
 {
     public $id;
-    public $name;
-    public $description;
-    public $tags;
+    public $title;
     public $price;
     public $stock;
+    public $zipcode;
 }

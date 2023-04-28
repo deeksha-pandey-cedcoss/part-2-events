@@ -1,6 +1,8 @@
 <?php
 
 use Phalcon\Mvc\Controller;
+use Phalcon\Events\Manager as EventsManager;
+use MyApp\handle\Aware;
 // login controller
 class OrderController extends Controller
 {
@@ -8,18 +10,24 @@ class OrderController extends Controller
     {
         // default login view
     }
-    // login action page
     public function addAction()
     {
         $order = new Orders();
+        $eventsManager = new EventsManager();
+        $component = new Aware();
 
-       
-        $data= array(
-            "customer_name"=> $this->escaper->escapeHtml($this->request->getPost("customer_name")),
-            "customer_address"=> $this->escaper->escapeHtml($this->request->getPost("customer_address")),
-            "zipcode"=> $this->escaper->escapeHtml($this->request->getPost("zipcode")),
-            "product_name"=> $this->escaper->escapeHtml($this->request->getPost("product_name")),
-            "quantity"=> $this->escaper->escapeHtml($this->request->getPost("quantity"))
+        $component->setEventsManager($eventsManager);
+        $eventsManager->attach(
+            'application:beforeHandleRequestOrder',
+            new Listner()
+        );
+        $component->process();
+        $data = array(
+            "customer_name" => $this->escaper->escapeHtml($this->request->getPost("customer_name")),
+            "customer_address" => $this->escaper->escapeHtml($this->request->getPost("customer_address")),
+            "zipcode" => $this->escaper->escapeHtml($this->request->getPost("zipcode")),
+            "product_name" => $this->escaper->escapeHtml($this->request->getPost("products")),
+            "quantity" => $this->escaper->escapeHtml($this->request->getPost("quantity"))
         );
         $order->assign(
             $data,
@@ -32,7 +40,6 @@ class OrderController extends Controller
             ]
         );
         $success = $order->save();
-        // print_r($success);die;
         if ($success) {
             $this->view->message = "Placed succesfully";
         } else {
@@ -45,8 +52,6 @@ class OrderController extends Controller
             "SELECT * FROM orders",
             \Phalcon\Db\Enum::FETCH_ASSOC
         );
-        $this->view->result=$order;
-        
-        
+        $this->view->result = $order;
     }
 }

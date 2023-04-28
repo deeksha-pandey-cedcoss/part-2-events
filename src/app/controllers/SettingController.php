@@ -8,46 +8,30 @@ class SettingController extends Controller
     {
         // default login view
     }
-    // login action page
     public function addAction()
     {
-        $product = new Products();
+        $setting = new Settings();
+        $product = $this->db->fetchAll("SELECT * FROM settings WHERE `id`=1", \Phalcon\Db\Enum::FETCH_ASSOC);
+        $data = array(
+            "title" => $this->escaper->escapeHtml($this->request->getPost("title")),
+            "price" => $this->escaper->escapeHtml($this->request->getPost("price")),
+            "stock" => $this->escaper->escapeHtml($this->request->getPost("stock")),
+            "zipcode" => $this->escaper->escapeHtml($this->request->getPost("zipcode"))
+        );
+        if (isset($product[0])) {
+            $conn = $this->container->get('db');
+            $conn->query(
+                "update `settings` set `title`='$data[title]',
+            `price`='$data[price]',
+            `stock`='$data[stock]',
+            `zipcode`='$data[zipcode]' where `id`='1'"
+            );
+        }
 
-       
-        $data= array(
-            "name"=> $this->escaper->escapeHtml($this->request->getPost("name")),
-            "description"=> $this->escaper->escapeHtml($this->request->getPost("description")),
-            "tags"=> $this->escaper->escapeHtml($this->request->getPost("tags")),
-            "price"=> $this->escaper->escapeHtml($this->request->getPost("price")),
-            "stock"=> $this->escaper->escapeHtml($this->request->getPost("stock"))
-        );
-        $product->assign(
-            $data,
-            [
-                'name',
-                "description",
-                "tags",
-                "price",
-                "stock"
-            ]
-        );
-        $success = $product->save();
-        // print_r($success);die;
-        if ($success) {
-            $this->view->message = "Added succesfully";
+        if ($conn) {
+            $this->view->message = "Applied succesfully";
         } else {
-            $this->view->message = "Not added : ";
+            $this->view->message = "Not applied : ";
         }
     }
-    public function viewAction()
-    {
-        $product = $this->db->fetchAll(
-            "SELECT * FROM products",
-            \Phalcon\Db\Enum::FETCH_ASSOC
-        );
-      
-        $this->view->message=$product;
-        
-     
-}
 }

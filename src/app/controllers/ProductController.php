@@ -1,6 +1,9 @@
 <?php
 
 use Phalcon\Mvc\Controller;
+use Phalcon\Events\Manager as EventsManager;
+use MyApp\handle\Aware;
+
 // login controller
 class ProductController extends Controller
 {
@@ -8,18 +11,24 @@ class ProductController extends Controller
     {
         // default login view
     }
-    // login action page
     public function addAction()
     {
         $product = new Products();
+        $eventsManager = new EventsManager();
+        $component = new Aware();
 
-       
-        $data= array(
-            "name"=> $this->escaper->escapeHtml($this->request->getPost("name")),
-            "description"=> $this->escaper->escapeHtml($this->request->getPost("description")),
-            "tags"=> $this->escaper->escapeHtml($this->request->getPost("tags")),
-            "price"=> $this->escaper->escapeHtml($this->request->getPost("price")),
-            "stock"=> $this->escaper->escapeHtml($this->request->getPost("stock"))
+        $component->setEventsManager($eventsManager);
+        $eventsManager->attach(
+            'application:beforeHandleRequestProduct',
+            new Listner()
+        );
+        $component->process();
+        $data = array(
+            "name" => $this->escaper->escapeHtml($this->request->getPost("pname")),
+            "description" => $this->escaper->escapeHtml($this->request->getPost("pdescription")),
+            "tags" => $this->escaper->escapeHtml($this->request->getPost("ptags")),
+            "price" => $this->escaper->escapeHtml($this->request->getPost("pprice")),
+            "stock" => $this->escaper->escapeHtml($this->request->getPost("pstock"))
         );
         $product->assign(
             $data,
@@ -32,7 +41,6 @@ class ProductController extends Controller
             ]
         );
         $success = $product->save();
-        // print_r($success);die;
         if ($success) {
             $this->view->message = "Added succesfully";
         } else {
@@ -45,9 +53,6 @@ class ProductController extends Controller
             "SELECT * FROM products",
             \Phalcon\Db\Enum::FETCH_ASSOC
         );
-      
-        $this->view->message=$product;
-        
-     
-}
+        $this->view->message = $product;
+    }
 }

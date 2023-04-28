@@ -1,5 +1,8 @@
 <?php
-
+echo $this->tag->linkTo(['product', 'Add products Here!', 'class' => 'm-3 btn btn-primary']);
+echo $this->tag->linkTo(['order', 'Place Order Here!', 'class' => 'm-3 btn btn-primary']);
+echo $this->tag->linkTo(['setting', 'Apply Settings Here!', 'class' => 'm-3 btn btn-primary']);
+echo  $this->tag->linkTo(['index', 'Homepage', 'class' => 'm-3 btn btn-primary']);
 
 echo "<table class= table table-striped >
         <thead>
@@ -11,17 +14,9 @@ echo "<table class= table table-striped >
             <th>Quantity</th>
         </thead>
         <tbody>";
-            
-       
-        foreach ($result as $key => $value) {
-            echo "<tr><td>".$value['id']."</td><td>".$value['customer_name']."</td><td>".$value['customer_address'].
-            "</td><td>".$value['zipcode']."</td><td>".$value['product_name']."</td><td>".$value['quantity']."</td></tr>";
-        }  
-            
-
-            
-          
-        echo "</tbody>
-    </table>";
-   
-echo  $this->tag->linkTo(['order', 'PLace Order', 'class' => 'btn btn-primary']);
+foreach ($result as $key => $value) {
+    echo "<tr><td>" . $value['id'] . "</td><td>" . $value['customer_name'] . "</td><td>" . $value['customer_address'] .
+        "</td><td>" . $value['zipcode'] . "</td><td>" . $value['product_name'] . "</td><td>" . $value['quantity'] .
+        "</td></tr>";
+}
+echo "</tbody></table>";

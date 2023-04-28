@@ -1,21 +1,24 @@
 <?php
 echo "<h1>Hello User Welcome</h1>";
 echo PHP_EOL;
-// link to signup page
+
 echo $this->tag->linkTo(
-    ['product',
-    'Add products Here!', 'class' => 'm-3 btn btn-primary']
+    [
+        'product',
+        'Add products Here!', 'class' => 'm-3 btn btn-primary'
+    ]
 );
 
-// link to login page
 echo $this->tag->linkTo(
-   [ 'order',
-    'Place Order Here!', 'class' => 'm-3 btn btn-primary']
+    [
+        'order',
+        'Place Order Here!', 'class' => 'm-3 btn btn-primary'
+    ]
 );
 
-// link to login page
 echo $this->tag->linkTo(
-   [ 'setting',
-    'Apply Settings Here!', 'class' => 'm-3 btn btn-primary']
+    [
+        'setting',
+        'Apply Settings Here!', 'class' => 'm-3 btn btn-primary'
+    ]
 );
-

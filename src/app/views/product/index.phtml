@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,42 +8,43 @@
     <title>Document</title>
 </head>
 <!-- main section for Products  -->
+
 <body>
-    <h2>
-        Add Products
-    </h2>
+    <?php
+    echo $this->tag->linkTo(['order', 'Place Order Here!', 'class' => 'm-3 btn btn-primary']);
+    echo $this->tag->linkTo(['setting', 'Apply Settings Here!', 'class' => 'm-3 btn btn-primary']);
+    echo  $this->tag->linkTo(['product/view', 'View Products', 'class' => 'm-3 btn btn-primary']);
+    echo  $this->tag->linkTo(['index', 'Homepage', 'class' => 'm-3 btn btn-primary']);
+    ?>
+
     <h2>Add products using this form</h2>
     <?php echo $this->tag->form("product/add"); ?>
     <p>
         <label for="name">Name</label>
-        <?php echo $this->tag->textfield(["name ","class"=>"form-control"]); ?>
+        <?php echo $this->tag->textfield(["pname", "class" => "form-control"]); ?>
     </p>
     <p>
         <label for="description">Description</label>
-        <?php echo $this->tag->textfield(["description","class"=>"form-control"]); ?>
+        <?php echo $this->tag->textfield(["pdescription", "class" => "form-control"]); ?>
     </p>
     <p>
         <label for="tags">Tags</label>
-        <?php echo $this->tag->textfield(["tags ","class"=>"form-control"]); ?>
+        <?php echo $this->tag->textfield(["ptags", "class" => "form-control"]); ?>
     </p>
     <p>
         <label for="price">Price</label>
-        <?php echo $this->tag->textfield(["price ","class"=>"form-control"]); ?>
+        <?php echo $this->tag->textfield(["pprice", "class" => "form-control"]); ?>
     </p>
     <p>
         <label for="stock">Stock</label>
-        <?php echo $this->tag->textfield(["stock ","class"=>"form-control"]); ?>
+        <?php echo $this->tag->textfield(["pstock", "class" => "form-control"]); ?>
     </p>
     <p>
         <?php echo $this->tag->submitButton(["ADD", 'class' => 'btn btn-primary']); ?>
     </p>
     <p>
-    <?php echo  $this->tag->linkTo(['product/view', 'View Products', 'class' => 'btn btn-primary']);?>
-    </p>
-    <p>
-        <?php echo  $this->tag->linkTo(['index', 'Homepage', 'class' => 'btn btn-primary']); ?>
-    </p>
-    </form>
+
+        </form>
 </body>
 
 </html>
