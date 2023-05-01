@@ -8,6 +8,8 @@ use Phalcon\Url;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Config;
 use Phalcon\Escaper;
+use Phalcon\Session\Manager;
+use Phalcon\Session\Adapter\Stream;
 
 $config = new Config([]);
 
@@ -26,7 +28,8 @@ $loader->registerDirs(
 );
 $loader->registerNamespaces(
     [
-        'MyApp\handle' => APP_PATH . '/handler/'
+        'MyApp\handle' => APP_PATH . '/handler/',
+        'listen' => APP_PATH . "/handlers/"
     ]
 );
 $loader->registerClasses(
@@ -76,7 +79,39 @@ $container->set(
         );
     }
 );
+
+$container->set(
+    'session',
+    function () {
+        $session = new Manager();
+        $files = new Stream(
+            [
+                'savePath' => '/tmp',
+            ]
+        );
+
+        $session
+            ->setAdapter($files)
+            ->start();
+        return $session;
+    }
+);
+
+
 $application = new Application($container);
+$eventsManager = $container->get('eventsManager');
+$eventsManager->attach(
+    'application:beforeHandleRequest',
+    new Listner()
+);
+$container->set(
+    'EventsManager',
+    $eventsManager
+);
+
+$application = new Application($container);
+
+$application->setEventsManager($eventsManager);
 try {
     // Handle the request
     $response = $application->handle(
